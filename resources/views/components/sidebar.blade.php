@@ -2,8 +2,7 @@
 <div class="relative z-[900]">
     <nav class="fixed left-0 top-0 h-screen w-[230px] bg-pink-800 pt-4 pl-4 pr-4 text-white
             transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
-            shadow-[4px_0_30px_rgba(139,0,0,0.3)] z-[950]
-            md:translate-x-0"
+            shadow-[4px_0_30px_rgba(139,0,0,0.3)] z-[950] -translate-x-full"
         id="sidebar">
 
         <div class="mb-10 text-center relative z-10">
@@ -26,8 +25,8 @@
                     </svg>
                     <span class="font-semibold relative z-10 text-sm">Dashboard</span>
                 </a>
-
             </li>
+
             <li class="mt-6 mb-2">
                 <div class="text-xs uppercase font-bold text-white/70 tracking-wider px-4 mb-2">Pengguna</div>
             </li>
@@ -101,6 +100,22 @@
             </li>
 
             <li class="mb-4">
+                <a href="{{ route('quiz.index') }}"
+                    class="flex items-center gap-3 p-3 rounded-xl text-stone-50 no-underline transition-all duration-300 hover:bg-pink-600 hover:pl-6 group {{ active_menu('quiz.*') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        <line x1="8" y1="10" x2="16" y2="10"></line>
+                        <line x1="8" y1="14" x2="12" y2="14"></line>
+                    </svg>
+                    <span class="font-semibold relative z-10 text-sm">Quiz</span>
+                </a>
+            </li>
+
+            <li class="mb-4">
                 <a href="{{ route('progress.index') }}"
                     class="flex items-center gap-3 p-3 rounded-xl text-stone-50 no-underline transition-all duration-300 hover:bg-pink-600 hover:pl-6 group {{ active_menu('progress.*') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -117,6 +132,6 @@
         </ul>
     </nav>
 
-    {{-- Overlay untuk mobile – berada di luar <nav> --}}
-    <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/50 z-[940] md:hidden"></div>
+    {{-- Overlay --}}
+    <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/50 z-[940]"></div>
 </div>

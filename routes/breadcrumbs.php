@@ -52,12 +52,43 @@ Breadcrumbs::for('orders.success', function (BreadcrumbTrail $trail) {
 // Pembelajaran
 Breadcrumbs::for('materials.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
-    $trail->push('Materi Pelatihan', route('materials.index'));
+    $trail->push('Materi', route('materials.index'));
+});
+
+// Quiz
+Breadcrumbs::for('quiz.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Quiz', route('quiz.index'));
+});
+
+Breadcrumbs::for('quiz.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('quiz.index');
+    $trail->push('Tambah Quiz');
+});
+
+Breadcrumbs::for('quiz.edit', function (BreadcrumbTrail $trail, $quiz) {
+    $trail->parent('quiz.index');
+    $trail->push('Edit Quiz');
+});
+
+Breadcrumbs::for('quiz.show', function (BreadcrumbTrail $trail, $quiz) {
+    $trail->parent('quiz.index');
+    $trail->push('Detail Quiz');
+});
+
+Breadcrumbs::for('quiz.take', function (BreadcrumbTrail $trail, $quiz, $customer) {
+    $trail->parent('quiz.index');
+    $trail->push('Kerjakan Quiz');
+});
+
+Breadcrumbs::for('quiz.result', function (BreadcrumbTrail $trail, $quiz, $customer) {
+    $trail->parent('quiz.index');
+    $trail->push('Hasil Quiz');
 });
 
 Breadcrumbs::for('progress.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
-    $trail->push('Progress Belajar', route('progress.index'));
+    $trail->push('Progress', route('progress.index'));
 });
 
 Breadcrumbs::for('progress.show', function (BreadcrumbTrail $trail, $customer) {

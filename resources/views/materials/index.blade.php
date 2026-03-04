@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Materi</title>
     <link rel="icon" href="{{ asset('images/kyb-remove.png') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/profile.js', 'resources/js/sidebar.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/profile.js', 'resources/js/sidebar.js', 'resources/js/materials.js'])
 </head>
 
 <style>
@@ -41,7 +41,7 @@
                     </svg>
                     Buka di tab baru
                 </a>
-                <button onclick="closePreviewModal()"
+                <button onclick="materials.closePreviewModal()"
                     class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/25 transition-all flex items-center justify-center text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -130,7 +130,7 @@
                         <div class="w-1 h-8 bg-[#E62727] rounded-full"></div>
                         <h3 class="text-xl font-bold text-gray-800">Data Materi</h3>
                     </div>
-                    <button onclick="openAddModal()"
+                    <button onclick="materials.openAddModal()"
                         class="flex items-center gap-2 bg-gradient-to-r from-[#8B0000] to-[#E62727] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-[0_4px_15px_rgba(230,39,39,0.3)] hover:shadow-[0_6px_20px_rgba(230,39,39,0.4)] hover:scale-[1.02] active:scale-95 transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2.5">
@@ -197,7 +197,7 @@
                                         @endphp
                                         @if ($previewTarget)
                                             <button
-                                                onclick="openPreviewModal('{{ $mat->type }}', '{{ $previewTarget }}', '{{ addslashes($mat->title) }}')"
+                                                onclick="materials.openPreviewModal('{{ $mat->type }}', '{{ $previewTarget }}', '{{ addslashes($mat->title) }}')"
                                                 class="inline-flex items-center gap-1 {{ $typeColors[$mat->type] ?? 'bg-gray-100 text-gray-500' }} text-xs font-semibold px-2.5 py-1 rounded-full hover:opacity-80 hover:scale-105 transition-all cursor-pointer border border-transparent hover:border-current/30"
                                                 title="Klik untuk preview">
                                                 {{ $typeIcons[$mat->type] ?? '' }} {{ strtoupper($mat->type) }}
@@ -225,7 +225,7 @@
                                     </td>
                                     <td class="p-5 pr-8">
                                         <div class="flex items-center gap-3">
-                                            <button onclick='openEditModal(@json($mat))'
+                                            <button onclick='materials.openEditModal(@json($mat))'
                                                 class="w-9 h-9 flex items-center justify-center text-[#E62727] hover:bg-[#E62727]/10 rounded-lg transition-all hover:scale-110 border border-transparent hover:border-[#E62727]/30"
                                                 title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -293,7 +293,7 @@
                         <p class="text-white/60 text-xs mt-0.5">Isi data materi baru</p>
                     </div>
                 </div>
-                <button onclick="closeAddModal()"
+                <button onclick="materials.closeAddModal()"
                     class="absolute top-5 right-5 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/25 transition-all flex items-center justify-center text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2.5">
@@ -332,7 +332,7 @@
                     <div class="group">
                         <label
                             class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 group-focus-within:text-[#E62727] transition-colors">Tipe</label>
-                        <select name="type" id="addType" onchange="toggleFileUrl('add')" required
+                        <select name="type" id="addType" onchange="materials.toggleFileUrl('add')" required
                             class="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-700 font-medium transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none">
                             <option value="pdf">PDF</option>
                             <option value="link">Link</option>
@@ -368,7 +368,7 @@
                     <span class="text-sm text-slate-500 font-medium">Aktifkan materi ini</span>
                 </div>
                 <div class="mt-2 flex gap-3">
-                    <button type="button" onclick="closeAddModal()"
+                    <button type="button" onclick="materials.closeAddModal()"
                         class="flex-1 h-11 bg-slate-100 text-slate-500 rounded-xl text-sm font-bold transition-all hover:bg-slate-200">Batal</button>
                     <button type="submit"
                         class="flex-1 h-11 bg-gradient-to-r from-[#8B0000] to-[#E62727] text-white rounded-xl text-sm font-bold shadow-[0_4px_15px_rgba(230,39,39,0.3)] transition-all hover:shadow-[0_6px_20px_rgba(230,39,39,0.4)] hover:scale-[1.02] active:scale-95">Simpan
@@ -397,7 +397,7 @@
                         <p class="text-white/60 text-xs mt-0.5">Perbarui data materi</p>
                     </div>
                 </div>
-                <button onclick="closeEditModal()"
+                <button onclick="materials.closeEditModal()"
                     class="absolute top-5 right-5 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/25 transition-all flex items-center justify-center text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2.5">
@@ -433,7 +433,7 @@
                     <div class="group">
                         <label
                             class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5">Tipe</label>
-                        <select id="edit_type" name="type" onchange="toggleFileUrl('edit')" required
+                        <select id="edit_type" name="type" onchange="materials.toggleFileUrl('edit')" required
                             class="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-700 font-medium transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none">
                             <option value="pdf">PDF</option>
                             <option value="link">Link</option>
@@ -469,7 +469,7 @@
                     <span class="text-sm text-slate-500 font-medium">Aktifkan materi ini</span>
                 </div>
                 <div class="mt-2 flex gap-3">
-                    <button type="button" onclick="closeEditModal()"
+                    <button type="button" onclick="materials.closeEditModal()"
                         class="flex-1 h-11 bg-slate-100 text-slate-500 rounded-xl text-sm font-bold transition-all hover:bg-slate-200">Batal</button>
                     <button type="submit"
                         class="flex-1 h-11 bg-gradient-to-r from-[#8B0000] to-[#E62727] text-white rounded-xl text-sm font-bold shadow-[0_4px_15px_rgba(230,39,39,0.3)] transition-all hover:shadow-[0_6px_20px_rgba(230,39,39,0.4)] hover:scale-[1.02] active:scale-95">Simpan
@@ -482,161 +482,6 @@
     @include('components.footer')
     @include('components.profile-modal')
 
-    <script>
-        function toggleFileUrl(prefix) {
-            const typeEl = document.getElementById(prefix + 'Type') ?? document.getElementById(prefix + '_type');
-            const type = typeEl.value;
-            const fileWrap = document.getElementById(prefix + 'FileWrap');
-            const urlWrap = document.getElementById(prefix + 'UrlWrap');
-
-            const fileInput = fileWrap.querySelector('input[type="file"]');
-            const acceptMap = {
-                'pdf': '.pdf',
-                'video': 'video/*',
-                'document': '.doc,.docx,.ppt,.pptx,.xls,.xlsx',
-            };
-            if (fileInput) fileInput.accept = acceptMap[type] ?? '';
-
-            if (type === 'link') {
-                fileWrap.classList.add('hidden');
-                urlWrap.classList.remove('hidden');
-            } else {
-                fileWrap.classList.remove('hidden');
-                urlWrap.classList.add('hidden');
-            }
-        }
-
-        function openAddModal() {
-            const m = document.getElementById('addModal');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
-            toggleFileUrl('add'); // set accept saat modal pertama dibuka
-        }
-
-        function closeAddModal() {
-            const m = document.getElementById('addModal');
-            m.classList.add('hidden');
-            m.classList.remove('flex');
-        }
-
-        function openEditModal(mat) {
-            document.getElementById('editForm').action = `/materials/${mat.id}`;
-            document.getElementById('edit_service_id').value = mat.service_id;
-            document.getElementById('edit_title').value = mat.title;
-            document.getElementById('edit_description').value = mat.description || '';
-            document.getElementById('edit_type').value = mat.type;
-            document.getElementById('edit_position').value = mat.position;
-            document.getElementById('edit_url').value = mat.url || '';
-            document.getElementById('edit_is_active').checked = mat.is_active;
-            toggleFileUrl('edit');
-
-            const m = document.getElementById('editModal');
-            m.classList.remove('hidden');
-            m.classList.add('flex');
-        }
-
-        function closeEditModal() {
-            const m = document.getElementById('editModal');
-            m.classList.add('hidden');
-            m.classList.remove('flex');
-        }
-
-        // ── Preview Modal ──────────────────────────────────────────────
-
-        const typeIconsMap = {
-            video: '🎬',
-            pdf: '📄',
-            document: '📝',
-            link: '🔗'
-        };
-
-        function buildPreviewContent(type, url, title) {
-            const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
-            const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
-            const isDoc = /\.(doc|docx)$/i.test(url);
-
-            if (type === 'pdf') {
-                return `<iframe src="${url}" class="w-full border-0" style="height:70vh;"></iframe>`;
-            }
-
-            if (type === 'video' || (type === 'link' && (ytMatch || vimeoMatch))) {
-                if (ytMatch) {
-                    return `
-                    <div class="relative w-full bg-black" style="padding-bottom:56.25%">
-                        <iframe class="absolute inset-0 w-full h-full"
-                            src="https://www.youtube.com/embed/${ytMatch[1]}"
-                            frameborder="0" allowfullscreen
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                        </iframe>
-                    </div>`;
-                }
-                if (vimeoMatch) {
-                    return `
-                    <div class="relative w-full" style="padding-bottom:56.25%">
-                        <iframe class="absolute inset-0 w-full h-full"
-                            src="https://player.vimeo.com/video/${vimeoMatch[1]}"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-                    </div>`;
-                }
-                return `<video controls class="w-full max-h-[70vh]">
-                        <source src="${url}">Browser Anda tidak mendukung video ini.
-                    </video>`;
-            }
-
-            if (type === 'document') {
-                const viewerUrl = isDoc ?
-                    `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true` :
-                    url;
-                return `<iframe src="${viewerUrl}" class="w-full border-0" style="height:70vh;"></iframe>`;
-            }
-
-            // Fallback: link biasa
-            return `
-            <div class="flex flex-col items-center justify-center h-full min-h-[400px] p-8 text-center gap-5">
-                <a href="${url}" target="_blank"
-                    class="flex items-center gap-2 bg-gradient-to-r from-[#8B0000] to-[#E62727] text-white px-6 py-3 rounded-xl text-sm font-bold shadow-lg hover:scale-105 transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                    </svg>
-                    Buka Link
-                </a>
-            </div>`;
-        }
-
-        function openPreviewModal(type, url, title) {
-            document.getElementById('previewTitle').textContent = title;
-            document.getElementById('previewType').textContent = type.toUpperCase();
-            document.getElementById('previewIcon').textContent = typeIconsMap[type] || '📎';
-            document.getElementById('previewOpenLink').href = url;
-            document.getElementById('previewContent').innerHTML = buildPreviewContent(type, url, title);
-
-            const modal = document.getElementById('previewModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closePreviewModal() {
-            const modal = document.getElementById('previewModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.getElementById('previewContent').innerHTML = '';
-        }
-
-        // ── Event Listeners ────────────────────────────────────────────
-
-        ['addModal', 'editModal', 'previewModal'].forEach(id => {
-            const el = document.getElementById(id);
-            const closeFn = {
-                addModal: closeAddModal,
-                editModal: closeEditModal,
-                previewModal: closePreviewModal
-            };
-            el.addEventListener('click', e => {
-                if (e.target === el) closeFn[id]();
-            });
-        });
-    </script>
 </body>
 
 </html>

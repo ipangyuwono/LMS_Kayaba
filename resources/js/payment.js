@@ -4,8 +4,6 @@ document.getElementById('pay-button').onclick = function () {
 
     window.snap.pay(window.snapToken, {
         onSuccess: function (result) {
-            // Setelah sukses bayar, langsung redirect ke halaman sukses
-            // Status akan di-polling dari halaman success
             window.location.href = window.successUrl + '?order_id=' + window.orderId;
         },
         onPending: function (result) {

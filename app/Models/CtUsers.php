@@ -16,7 +16,8 @@ class CtUsers extends Authenticatable
     protected $primaryKey = 'id';
     public $timestamps = true;
 
-    protected $fillable = [
+    protected $fillable =
+    [
         'full_name',
         'pwd',
         'approved',

@@ -18,8 +18,17 @@ class Profile extends Controller
 
     public function update(Request $request)
     {
-        // Add validation and update logic here
-        // For now, redirect back with success message
-        return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui!');
+        $user = auth('lembur')->user();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User tidak ditemukan, silakan login ulang.');
+        }
+
+        $user->full_name = $request->name;
+        $user->npk = $request->npk;
+        $user->dept = $request->department;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
     }
 }

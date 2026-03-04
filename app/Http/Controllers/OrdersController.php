@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use App\Models\Orders;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Midtrans\Transaction;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrdersController extends Controller
 {
@@ -83,11 +83,12 @@ class OrdersController extends Controller
     public function callback(Request $request)
     {
         $serverKey       = env('MIDTRANS_SERVER_KEY');
-        $hashed          = hash('sha512',
+        $hashed          = hash(
+            'sha512',
             $request->order_id .
-            $request->status_code .
-            $request->gross_amount .
-            $serverKey
+                $request->status_code .
+                $request->gross_amount .
+                $serverKey
         );
 
         // Validasi signature key
@@ -133,8 +134,10 @@ class OrdersController extends Controller
                 $txStatus    = $midtransStatus->transaction_status ?? null;
                 $fraudStatus = $midtransStatus->fraud_status ?? null;
 
-                if (in_array($txStatus, ['capture', 'settlement']) &&
-                    ($fraudStatus === 'accept' || $txStatus === 'settlement')) {
+                if (
+                    in_array($txStatus, ['capture', 'settlement']) &&
+                    ($fraudStatus === 'accept' || $txStatus === 'settlement')
+                ) {
                     $order->update(['status' => 'paid']);
                 } elseif (in_array($txStatus, ['cancel', 'deny'])) {
                     $order->update(['status' => 'failed']);
@@ -166,5 +169,26 @@ class OrdersController extends Controller
     {
         $orders = Orders::with('service')->latest()->paginate(10);
         return view('orders.index', compact('orders'));
+    }
+
+    public function invoice(Orders $order)
+    {
+        if ($order->status !== 'paid') {
+            return redirect()->back()->with('error', 'Invoice hanya tersedia untuk order yang sudah dibayar.');
+        }
+
+        $pdf = Pdf::loadView('orders.invoice', compact('order'))
+            ->setPaper('a4', 'portrait')
+            ->setOption([
+                'dpi' => 96,
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => false,
+                'margin_top' => 10,
+                'margin_bottom' => 10,
+                'margin_left' => 10,
+                'margin_right' => 10,
+            ]);
+
+        return $pdf->download('invoice-' . $order->order_id . '.pdf');
     }
 }

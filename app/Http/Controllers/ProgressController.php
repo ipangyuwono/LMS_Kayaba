@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\CustomerProgress;
 use App\Models\Material;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProgressController extends Controller
 {
@@ -42,7 +43,11 @@ class ProgressController extends Controller
             ->pluck('status', 'material_id')
             ->toArray();
 
-        return view('progress.show', compact('customer', 'materials', 'progressMap'));
+        $completed = collect($progressMap)->filter(fn($s) => $s === 'completed')->count();
+        $total = $materials->count();
+        $pct = $total > 0 ? round(($completed / $total) * 100) : 0;
+
+        return view('progress.show', compact('customer', 'materials', 'progressMap', 'pct', 'completed', 'total'));
     }
 
     // Update status progress
@@ -101,5 +106,40 @@ class ProgressController extends Controller
         );
 
         return redirect()->back()->with('success', 'Progress berhasil diperbarui.');
+    }
+
+    public function certificate(Customer $customer)
+    {
+        $totalMaterials = Material::where('is_active', true)->count();
+        $completed = CustomerProgress::where('customer_id', $customer->id)
+            ->where('status', 'completed')
+            ->count();
+
+        if ($totalMaterials === 0 || $completed < $totalMaterials) {
+            return redirect()->back()->with('error', 'Progress belum 100%, sertifikat belum bisa dicetak.');
+        }
+
+        $data = [
+            'nama'       => $customer->nama,
+            'kelas'      => $customer->kelas,
+            'departemen' => $customer->departemen,
+            'tanggal'    => now()->translatedFormat('d F Y'),
+        ];
+
+        $pdf = Pdf::loadView('certificate', $data)
+            ->setPaper('a4', 'landscape')
+            ->setOption([
+                'dpi' => 96,
+                'defaultPaperSize' => 'a4',
+                'defaultPaperOrientation' => 'landscape',
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => false,
+                'margin_top' => 10,
+                'margin_bottom' => 10,
+                'margin_left' => 10,
+                'margin_right' =>   0,
+            ]);
+
+        return $pdf->download('sertifikat-' . str($customer->nama)->slug() . '.pdf');
     }
 }
