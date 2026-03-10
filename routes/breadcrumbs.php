@@ -12,20 +12,20 @@ Breadcrumbs::for('customers', function (BreadcrumbTrail $trail) {
     $trail->push('Customers', route('customers'));
 });
 
-// Layanan
+// Service
 Breadcrumbs::for('services.index', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
-    $trail->push('Layanan', route('services.index'));
+    $trail->push('Service', route('services.index'));
 });
 
 Breadcrumbs::for('services.create', function (BreadcrumbTrail $trail) {
     $trail->parent('services.index');
-    $trail->push('Tambah Layanan');
+    $trail->push('Tambah Service');
 });
 
 Breadcrumbs::for('services.edit', function (BreadcrumbTrail $trail, $service) {
     $trail->parent('services.index');
-    $trail->push('Edit Layanan');
+    $trail->push('Edit Service');
 });
 
 // Orders

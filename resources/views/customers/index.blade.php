@@ -128,10 +128,8 @@
 
                 <!-- Optional: jika kosong -->
                 @if ($Customers->isEmpty())
-                    <div class="p-12 text-center text-gray-500">
+                    <div class="p-12 text-center text-slate-400">
                         <p class="text-lg">Belum ada data customer.</p>
-                        <button onclick="openAddModal()" class="mt-4 text-[#E62727] hover:underline">Tambah data
-                            pertama sekarang →</button>
                     </div>
                 @endif
             </section>

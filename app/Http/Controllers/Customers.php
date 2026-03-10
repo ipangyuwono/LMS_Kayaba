@@ -27,8 +27,8 @@ class Customers extends Controller
             'departemen' => $request->departemen,
             'password' => $request->password,
         ]);
-        
-        return redirect()->route('customers.index')->with('success', 'Customer berhasil ditambahkan!');
+
+        return redirect()->route('customers')->with('success', 'Customer berhasil ditambahkan!');
     }
 
     public function update(Request $request, $id)
@@ -45,14 +45,14 @@ class Customers extends Controller
         }
 
         $customer->update($data);
-        return redirect()->route('customers.index')->with('success', 'Customer berhasil diupdate!');
+        return redirect()->route('customers')->with('success', 'Customer berhasil diupdate!');
     }
 
 
     public function delete(Customer $customer)
     {
         $customer -> delete();
-        return redirect() -> route('customers.index');
+        return redirect() -> route('customers');
     }
 
 }

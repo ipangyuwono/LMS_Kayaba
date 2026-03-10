@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Quiz extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'service_id',
         'title',
@@ -32,5 +35,18 @@ class Quiz extends Model
     public function answers()
     {
         return $this->hasMany(QuizAnswer::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'is_active'])
+            ->setDescriptionForEvent(fn(string $eventName) => match ($eventName) {
+                'created' => 'Quiz baru dibuat',
+                'updated' => 'Quiz diperbarui',
+                'deleted' => 'Quiz dihapus',
+                default   => $eventName,
+            })
+            ->logOnlyDirty();
     }
 }

@@ -2,32 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Orders;
 use App\Models\Service;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Midtrans\Transaction;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrdersController extends Controller
 {
     public function __construct()
     {
-        // Setup Midtrans config
         Config::$serverKey    = env('MIDTRANS_SERVER_KEY');
         Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
         Config::$isSanitized  = env('MIDTRANS_IS_SANITIZED', true);
         Config::$is3ds        = env('MIDTRANS_IS_3DS', true);
     }
 
-    // Halaman form order (customer isi data diri)
     public function create(Service $service)
     {
         return view('orders.create', compact('service'));
     }
 
-    // Simpan order & ambil snap token
     public function store(Request $request, Service $service)
     {
         $request->validate([
@@ -38,7 +36,6 @@ class OrdersController extends Controller
 
         $orderId = 'ORDER-' . strtoupper(uniqid());
 
-        // Buat order di database
         $order = Orders::create([
             'order_id'       => $orderId,
             'service_id'     => $service->id,
@@ -49,7 +46,6 @@ class OrdersController extends Controller
             'status'         => 'pending',
         ]);
 
-        // Siapkan payload untuk Midtrans Snap
         $params = [
             'transaction_details' => [
                 'order_id'     => $orderId,
@@ -70,28 +66,23 @@ class OrdersController extends Controller
             ],
         ];
 
-        // Ambil snap token dari Midtrans
         $snapToken = Snap::getSnapToken($params);
-
-        // Simpan snap token ke order
         $order->update(['snap_token' => $snapToken]);
 
         return view('orders.payment', compact('order', 'snapToken', 'service'));
     }
 
-    // Callback dari Midtrans (notification URL)
     public function callback(Request $request)
     {
-        $serverKey       = env('MIDTRANS_SERVER_KEY');
-        $hashed          = hash(
+        $serverKey = env('MIDTRANS_SERVER_KEY');
+        $hashed    = hash(
             'sha512',
             $request->order_id .
-                $request->status_code .
-                $request->gross_amount .
-                $serverKey
+            $request->status_code .
+            $request->gross_amount .
+            $serverKey
         );
 
-        // Validasi signature key
         if ($hashed !== $request->signature_key) {
             return response()->json(['message' => 'Invalid signature'], 403);
         }
@@ -102,14 +93,15 @@ class OrdersController extends Controller
             return response()->json(['message' => 'Order not found'], 404);
         }
 
-        // Update status berdasarkan transaction_status dari Midtrans
         $transactionStatus = $request->transaction_status;
         $fraudStatus       = $request->fraud_status;
 
         if ($transactionStatus === 'capture' && $fraudStatus === 'accept') {
             $order->update(['status' => 'paid']);
+            $this->createNotification($order);
         } elseif ($transactionStatus === 'settlement') {
             $order->update(['status' => 'paid']);
+            $this->createNotification($order);
         } elseif (in_array($transactionStatus, ['cancel', 'deny'])) {
             $order->update(['status' => 'failed']);
         } elseif ($transactionStatus === 'expire') {
@@ -121,18 +113,15 @@ class OrdersController extends Controller
         return response()->json(['message' => 'OK']);
     }
 
-    // Halaman sukses setelah bayar
     public function success(Request $request)
     {
         $order = Orders::where('order_id', $request->order_id)->first();
 
-        // Jika order masih pending, aktif cek ke Midtrans API
-        // agar tidak tergantung pada callback async yang mungkin belum tiba
         if ($order && $order->status === 'pending') {
             try {
                 $midtransStatus = Transaction::status($order->order_id);
-                $txStatus    = $midtransStatus->transaction_status ?? null;
-                $fraudStatus = $midtransStatus->fraud_status ?? null;
+                $txStatus       = $midtransStatus->transaction_status ?? null;
+                $fraudStatus    = $midtransStatus->fraud_status ?? null;
 
                 if (
                     in_array($txStatus, ['capture', 'settlement']) &&
@@ -145,17 +134,15 @@ class OrdersController extends Controller
                     $order->update(['status' => 'expired']);
                 }
 
-                // Reload dari DB agar status terbaru
                 $order->refresh();
             } catch (\Exception $e) {
-                // Biarkan status tetap pending jika Midtrans API gagal dipanggil
+                // Biarkan status tetap pending jika Midtrans API gagal
             }
         }
 
         return view('orders.success', compact('order'));
     }
 
-    // Cek status order secara real-time (untuk polling dari frontend)
     public function checkStatus(Orders $order)
     {
         return response()->json([
@@ -164,7 +151,6 @@ class OrdersController extends Controller
         ]);
     }
 
-    // Daftar semua order (admin)
     public function index()
     {
         $orders = Orders::with('service')->latest()->paginate(10);
@@ -180,15 +166,24 @@ class OrdersController extends Controller
         $pdf = Pdf::loadView('orders.invoice', compact('order'))
             ->setPaper('a4', 'portrait')
             ->setOption([
-                'dpi' => 96,
+                'dpi'                  => 96,
                 'isHtml5ParserEnabled' => true,
-                'isRemoteEnabled' => false,
-                'margin_top' => 10,
-                'margin_bottom' => 10,
-                'margin_left' => 10,
-                'margin_right' => 10,
+                'isRemoteEnabled'      => false,
+                'margin_top'           => 10,
+                'margin_bottom'        => 10,
+                'margin_left'          => 10,
+                'margin_right'         => 10,
             ]);
 
         return $pdf->download('invoice-' . $order->order_id . '.pdf');
+    }
+
+    private function createNotification(Orders $order)
+    {
+        Notification::create([
+            'title'    => 'Order Baru Masuk! 🎉',
+            'message'  => 'Order ' . $order->order_id . ' dari ' . $order->customer_name . ' telah dibayar.',
+            'order_id' => $order->order_id,
+        ]);
     }
 }

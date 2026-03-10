@@ -148,7 +148,7 @@
                             <tr class="text-black">
                                 <th class="p-5 pl-8 text-left text-xs font-semibold uppercase tracking-wide w-10">No
                                 </th>
-                                <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Layanan</th>
+                                <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Service</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Judul</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Tipe</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Urutan</th>
@@ -258,7 +258,7 @@
                             @empty
                                 <tr>
                                     <td colspan="7">
-                                        <div class="p-12 text-center text-gray-500">
+                                        <div class="p-12 text-center text-slate-400">
                                             <p class="text-lg">Belum ada data materi.</p>
                                         </div>
                                     </td>
@@ -306,10 +306,10 @@
                 @csrf
                 <div class="group">
                     <label
-                        class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 group-focus-within:text-[#E62727] transition-colors">Layanan</label>
+                        class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 group-focus-within:text-[#E62727] transition-colors">Service</label>
                     <select name="service_id" required
                         class="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-700 font-medium transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none">
-                        <option value="">Pilih layanan...</option>
+                        <option value="">Pilih Service...</option>
                         @foreach ($services as $svc)
                             <option value="{{ $svc->id }}">{{ $svc->name }}</option>
                         @endforeach
@@ -409,7 +409,7 @@
                 @csrf @method('PUT')
                 <div class="group">
                     <label
-                        class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5">Layanan</label>
+                        class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5">Service</label>
                     <select id="edit_service_id" name="service_id" required
                         class="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-700 font-medium transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none">
                         @foreach ($services as $svc)

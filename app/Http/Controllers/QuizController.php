@@ -117,7 +117,6 @@ class QuizController extends Controller
 
     public function take(Quiz $quiz, Customer $customer)
     {
-
         $totalMaterials = Material::where('is_active', true)
             ->whereHas('service', fn($q) => $q->where('id', $quiz->service_id))
             ->count();

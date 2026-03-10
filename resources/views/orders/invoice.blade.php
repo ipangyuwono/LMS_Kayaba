@@ -139,7 +139,7 @@
 
     {{-- Footer --}}
     <div class="footer">
-        Terima kasih telah menggunakan layanan KYB Training Center
+        Terima kasih telah menggunakan Service KYB Training Center
     </div>
 
 </div>

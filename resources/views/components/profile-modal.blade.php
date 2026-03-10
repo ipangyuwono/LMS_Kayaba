@@ -47,7 +47,7 @@
                         <div class="flex flex-col min-w-0 flex-1">
                             <span class="text-[9px] font-black text-slate-400 uppercase tracking-[2px]">Nomer NPK</span>
                             <span
-                                class="text-sm font-bold text-slate-700 truncate">{{ auth('lembur')->user()->npk }}</span>
+                                class="text-sm font-bold text-slate-700 truncate disabled:">{{ auth('lembur')->user()->npk }}</span>
                         </div>
                         <div
                             class="w-1 h-7 rounded-full bg-gradient-to-b from-[#E62727] to-[#8B0000] opacity-20 group-hover:opacity-60 transition-all">
@@ -130,7 +130,7 @@
                                 NPK</label>
                             <input type="text"
                                 class="w-full h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-bold text-slate-700 transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none"
-                                id="modalNpk" name="npk" value={{ auth('lembur')->user()->npk }} required>
+                                id="modalNpk" name="npk" value={{ auth('lembur')->user()->npk }} readonly>
                         </div>
 
                         <div class="flex flex-col gap-2 group">

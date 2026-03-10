@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Layanan</title>
+    <title>Data Service</title>
     <link rel="icon" href="{{ asset('images/kyb-remove.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/profile.js', 'resources/js/sidebar.js'])
 </head>
@@ -41,7 +41,7 @@
                     class="p-6 md:p-8 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-r from-gray-50 to-white">
                     <div class="flex items-center gap-4">
                         <div class="w-1 h-8 bg-[#E62727] rounded-full"></div>
-                        <h3 class="text-xl md:text-xl font-bold text-gray-800">Data Layanan</h3>
+                        <h3 class="text-xl md:text-xl font-bold text-gray-800">Data Service</h3>
                     </div>
 
                     <button onclick="openAddModal()"
@@ -52,7 +52,7 @@
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                        Tambah Layanan
+                        Tambah Service
                     </button>
                 </div>
 
@@ -62,7 +62,7 @@
                         <thead>
                             <tr class="text-black">
                                 <th class="p-5 pl-8 text-left text-xs font-semibold uppercase tracking-wide">No</th>
-                                <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Nama Layanan</th>
+                                <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Nama Service</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Deskripsi</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Harga</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Durasi</th>
@@ -119,7 +119,7 @@
 
                                         {{-- Delete --}}
                                         <form action="{{ route('services.destroy', $service) }}" method="POST"
-                                            onsubmit="return confirm('Hapus layanan {{ addslashes($service->name) }}?')"
+                                            onsubmit="return confirm('Hapus Service {{ addslashes($service->name) }}?')"
                                             class="m-0">
                                             @csrf
                                             @method('DELETE')
@@ -140,9 +140,8 @@
                             @empty
                             <tr>
                                 <td colspan="7">
-                                    <div class="p-12 text-center text-gray-500">
-                                        <p class="text-lg">Belum ada data layanan.</p>
-                                        <button onclick="openAddModal()" class="mt-4 text-[#E62727] hover:underline">Tambah layanan pertama sekarang →</button>
+                                    <div class="p-12 text-center text-slate-400">
+                                        <p class="text-lg">Belum ada data service.</p>
                                     </div>
                                 </td>
                             </tr>
@@ -160,7 +159,7 @@
         </main>
     </div>
 
-    {{-- Modal Edit Layanan --}}
+    {{-- Modal Edit Service --}}
     <div id="editModal" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-black/60 backdrop-blur-sm">
         <div class="relative w-[90%] max-w-[520px] overflow-hidden rounded-2xl bg-white shadow-[0_32px_64px_rgba(0,0,0,0.2)]">
 
@@ -175,8 +174,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-lg font-bold text-white">Edit Layanan</h2>
-                        <p class="text-white/60 text-xs mt-0.5">Perbarui data layanan</p>
+                        <h2 class="text-lg font-bold text-white">Edit Service</h2>
+                        <p class="text-white/60 text-xs mt-0.5">Perbarui data Service</p>
                     </div>
                 </div>
                 <button onclick="closeEditModal()"
@@ -194,13 +193,13 @@
                 @method('PUT')
                 <div class="space-y-4">
 
-                    {{-- Nama Layanan --}}
+                    {{-- Nama Service --}}
                     <div class="group">
                         <label for="edit_name"
                             class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 group-focus-within:text-[#E62727] transition-colors">
-                            Nama Layanan
+                            Nama Service
                         </label>
-                        <input type="text" id="edit_name" name="name" required placeholder="Masukkan nama layanan"
+                        <input type="text" id="edit_name" name="name" required placeholder="Masukkan nama Service"
                             class="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-700 font-medium transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none placeholder:text-slate-300">
                     </div>
 
@@ -210,7 +209,7 @@
                             class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 group-focus-within:text-[#E62727] transition-colors">
                             Deskripsi
                         </label>
-                        <textarea id="edit_description" name="description" rows="2" placeholder="Masukkan deskripsi layanan"
+                        <textarea id="edit_description" name="description" rows="2" placeholder="Masukkan deskripsi Service"
                             class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 font-medium transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none placeholder:text-slate-300 resize-none"></textarea>
                     </div>
 
@@ -240,7 +239,7 @@
                             <input type="checkbox" id="edit_is_active" name="is_active" class="sr-only peer">
                             <div class="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#E62727]"></div>
                         </label>
-                        <span class="text-sm font-medium text-gray-700">Aktifkan layanan ini</span>
+                        <span class="text-sm font-medium text-gray-700">Aktifkan Service ini</span>
                     </div>
 
                 </div>
@@ -260,7 +259,7 @@
         </div>
     </div>
 
-    {{-- Modal Tambah Layanan --}}
+    {{-- Modal Tambah Service --}}
     <div id="addModal" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-black/60 backdrop-blur-sm">
         <div class="relative w-[90%] max-w-[520px] overflow-hidden rounded-2xl bg-white shadow-[0_32px_64px_rgba(0,0,0,0.2)]">
 
@@ -275,8 +274,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-lg font-bold text-white">Tambah Layanan</h2>
-                        <p class="text-white/60 text-xs mt-0.5">Isi data layanan baru</p>
+                        <h2 class="text-lg font-bold text-white">Tambah Service</h2>
+                        <p class="text-white/60 text-xs mt-0.5">Isi data Service baru</p>
                     </div>
                 </div>
                 <button onclick="closeAddModal()"
@@ -293,13 +292,13 @@
                 @csrf
                 <div class="space-y-4">
 
-                    {{-- Nama Layanan --}}
+                    {{-- Nama Service --}}
                     <div class="group">
                         <label
                             class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 group-focus-within:text-[#E62727] transition-colors">
-                            Nama Layanan
+                            Nama Service
                         </label>
-                        <input type="text" name="name" required placeholder="Masukkan nama layanan"
+                        <input type="text" name="name" required placeholder="Masukkan nama Service"
                             class="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-700 font-medium transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none placeholder:text-slate-300">
                     </div>
 
@@ -309,7 +308,7 @@
                             class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 group-focus-within:text-[#E62727] transition-colors">
                             Deskripsi
                         </label>
-                        <textarea name="description" rows="2" placeholder="Masukkan deskripsi layanan"
+                        <textarea name="description" rows="2" placeholder="Masukkan deskripsi Service"
                             class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 font-medium transition-all focus:bg-white focus:border-[#E62727] focus:ring-4 focus:ring-[#E62727]/10 outline-none placeholder:text-slate-300 resize-none"></textarea>
                     </div>
 
@@ -339,7 +338,7 @@
                             <input type="checkbox" name="is_active" class="sr-only peer" checked>
                             <div class="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#E62727]"></div>
                         </label>
-                        <span class="text-sm font-medium text-gray-700">Aktifkan layanan ini</span>
+                        <span class="text-sm font-medium text-gray-700">Aktifkan Service ini</span>
                     </div>
 
                 </div>
@@ -352,7 +351,7 @@
                     </button>
                     <button type="submit"
                         class="flex-1 h-11 bg-gradient-to-r from-[#8B0000] to-[#E62727] text-white rounded-xl text-sm font-bold shadow-[0_4px_15px_rgba(230,39,39,0.3)] transition-all hover:shadow-[0_6px_20px_rgba(230,39,39,0.4)] hover:scale-[1.02] active:scale-95">
-                        Simpan Layanan
+                        Simpan Service
                     </button>
                 </div>
             </form>
@@ -374,7 +373,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-lg font-bold text-white">Pesan Layanan</h2>
+                        <h2 class="text-lg font-bold text-white">Pesan Service</h2>
                         <p class="text-white/60 text-xs mt-0.5">Isi data diri untuk melanjutkan pembayaran</p>
                     </div>
                 </div>
@@ -387,11 +386,11 @@
                 </button>
             </div>
 
-            {{-- Info Layanan --}}
+            {{-- Info Service --}}
             <div class="bg-gradient-to-r from-[#8B0000] to-[#E62727] px-8 py-4">
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
-                        <p class="text-red-200 text-xs font-semibold uppercase tracking-wider mb-0.5">Layanan Dipilih</p>
+                        <p class="text-red-200 text-xs font-semibold uppercase tracking-wider mb-0.5">Service Dipilih</p>
                         <h3 id="order_service_name" class="text-base font-bold text-white"></h3>
                         <p id="order_service_desc" class="text-red-100 text-xs mt-0.5 leading-relaxed"></p>
                         <span id="order_service_duration" class="inline-block mt-1 text-xs bg-white/20 text-white px-2 py-0.5 rounded-full"></span>

@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
         data: {
             labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
             datasets: [{
-                label: 'Data Customer',
-                data: [12, 19, 15, 25, 22],
+                data: window.chartValues || [],
+                labels: window.chartLabels || [],
                 borderColor: '#E62727',
                 backgroundColor: 'rgba(232, 222, 222, 0.1)',
                 borderWidth: 3,

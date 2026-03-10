@@ -106,7 +106,7 @@
                             <span class="text-sm font-semibold text-slate-700">{{ $order->customer_name }}</span>
                         </div>
                         <div class="flex justify-between items-center px-4 py-3 border-b border-slate-100">
-                            <span class="text-xs text-slate-400 font-medium uppercase tracking-wide">Layanan</span>
+                            <span class="text-xs text-slate-400 font-medium uppercase tracking-wide">Service</span>
                             <span
                                 class="text-sm font-semibold text-slate-700 text-right max-w-[60%]">{{ $order->service->name }}</span>
                         </div>
@@ -139,7 +139,7 @@
                     @endif
                     <a href="{{ route('services.index') }}"
                         class="w-full text-center bg-pink-700 hover:bg-pink-800 active:scale-95 text-white text-sm font-bold py-3.5 rounded-2xl transition-all duration-150 shadow-sm hover:shadow-md">
-                        Kembali ke Layanan
+                        Kembali ke Service
                     </a>
                     <a href="{{ route('orders.index') }}"
                         class="w-full text-center bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 hover:text-slate-800 text-sm font-semibold py-3.5 rounded-2xl transition-all duration-150">

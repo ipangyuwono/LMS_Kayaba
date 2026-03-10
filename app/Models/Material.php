@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Material extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'service_id',
         'title',
@@ -29,5 +32,18 @@ class Material extends Model
     public function progress()
     {
         return $this->hasMany(CustomerProgress::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'is_active'])
+            ->setDescriptionForEvent(fn(string $eventName) => match($eventName) {
+                'created' => 'Materi baru ditambahkan',
+                'updated' => 'Materi diperbarui',
+                'deleted' => 'Materi dihapus',
+                default   => $eventName,
+            })
+            ->logOnlyDirty();
     }
 }

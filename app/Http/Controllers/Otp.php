@@ -22,9 +22,9 @@ class Otp extends Controller
 
         $userId = Auth::id();
         $otpRecord = OtpModel::where('id_user', $userId)
-                             ->where('use', '0') // Hanya cek yang belum dipakai
-                             ->latest()
-                             ->first();
+            ->where('use', '0') // Hanya cek yang belum dipakai
+            ->latest()
+            ->first();
 
         // VALIDASI
         if ($otpRecord && $inputOtp == $otpRecord->otp) {

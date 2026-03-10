@@ -77,7 +77,7 @@
                         <thead>
                             <tr class="text-black">
                                 <th class="p-5 pl-8 text-left text-xs font-semibold uppercase tracking-wide">ID Order</th>
-                                <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Layanan</th>
+                                <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Service</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Customer</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Email</th>
                                 <th class="p-5 text-left text-xs font-semibold uppercase tracking-wide">Total</th>
@@ -124,7 +124,7 @@
                             @empty
                             <tr>
                                 <td colspan="7">
-                                    <div class="p-12 text-center text-gray-500">
+                                    <div class="p-12 text-center text-slate-400">
                                         <p class="text-lg">Belum ada data order.</p>
                                     </div>
                                 </td>

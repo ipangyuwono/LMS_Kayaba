@@ -15,7 +15,8 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "mews/captcha": "*",
-        "midtrans/midtrans-php": "*"
+        "midtrans/midtrans-php": "*",
+        "spatie/laravel-activitylog": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

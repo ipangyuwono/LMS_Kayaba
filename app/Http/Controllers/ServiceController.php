@@ -36,7 +36,7 @@ class ServiceController extends Controller
         ]);
 
         return redirect()->route('services.index')
-            ->with('success', 'Layanan berhasil ditambahkan.');
+            ->with('success', 'Service berhasil ditambahkan.');
     }
 
     public function show(Service $service)
@@ -67,13 +67,13 @@ class ServiceController extends Controller
         ]);
 
         return redirect()->route('services.index')
-            ->with('success', 'Layanan berhasil diperbarui.');
+            ->with('success', 'Service berhasil diperbarui.');
     }
 
     public function destroy(Service $service)
     {
         $service->delete();
         return redirect()->route('services.index')
-            ->with('success', 'Layanan berhasil dihapus.');
+            ->with('success', 'Service berhasil dihapus.');
     }
 }

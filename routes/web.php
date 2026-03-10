@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\Customers;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\login;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuizController;
 
 
@@ -87,3 +89,10 @@ Route::get('/quiz/{quiz}/customer/{customer}', [QuizController::class, 'take'])-
 Route::post('/quiz/{quiz}/customer/{customer}/submit', [QuizController::class, 'submit'])->name('quiz.submit');
 Route::get('/quiz/{quiz}/customer/{customer}/result', [QuizController::class, 'result'])->name('quiz.result');
 });
+
+//chatbot
+Route::post('/chatbot', [ChatbotController::class, 'chat'])->name('chatbot')->middleware('throttle:10,1');
+
+//notifikasi
+Route::get('/notifications/poll', [NotificationController::class, 'poll'])->name('notifications.poll');
+Route::post('/notifications/read', [NotificationController::class, 'markRead'])->name('notifications.read');

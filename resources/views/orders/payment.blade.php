@@ -21,7 +21,7 @@
             {{-- Detail --}}
             <div class="px-6 py-5 space-y-3 border-b border-gray-100">
                 <div class="flex justify-between text-sm">
-                    <span class="text-gray-500">Layanan</span>
+                    <span class="text-gray-500">Service</span>
                     <span class="font-semibold text-gray-800">{{ $service->name }}</span>
                 </div>
                 <div class="flex justify-between text-sm">
